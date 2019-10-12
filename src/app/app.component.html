@@ -1,0 +1,30 @@
+<div id="wrapper">
+<app-navbar></app-navbar>
+
+<section class="container">
+    <router-outlet>
+            <ngx-ui-loader
+  [bgsColor]="'#4984ef'"
+  [bgsOpacity]="0.5"
+  [bgsPosition]="'bottom-right'"
+  [bgsSize]="60"
+  [bgsType]="'ball-spin-clockwise'"
+  [fgsColor]="'#4984ef'"
+  [fgsPosition]="'center-center'"
+  [fgsSize]="60"
+  [fgsType]="'ball-spin-clockwise'"
+  [gap]="24"
+  [logoPosition]="'center-center'"
+  [logoSize]="120"
+  [logoUrl]=''      
+  [overlayColor]="'#2828289c'"
+  [pbColor]="'#4984ef'"
+  [pbDirection]="'ltr'"
+  [pbThickness]="3"
+  [hasProgressBar]="true"
+  [text]="'Cargando..'"
+  [textColor]="'#FFFFFF'"
+  [textPosition]="'center-center'"></ngx-ui-loader>
+  
+    </router-outlet>
+</section>

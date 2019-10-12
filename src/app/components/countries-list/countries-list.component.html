@@ -1,0 +1,178 @@
+<br>
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card mb-3">
+          <div class="card-header">Search countries</div>
+          <div class="card-block">
+              <span>Search by:</span>
+              <div class="row">
+                  <div class="col-xl-4">
+                      <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="Language" name="defaultExampleRadios" [(ngModel)]="criteria" value="lang" (change)="changeValue($event)">
+                          <label class="custom-control-label" for="Language">Language</label>
+                      </div>
+                  </div>
+                  <div class="col-xl-4">
+                      <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="Continent" name="defaultExampleRadios" [(ngModel)]="criteria" value="region" (change)="changeValue($event)">
+                          <label class="custom-control-label" for="Continent">Continent</label>
+                      </div>
+                  </div>
+                  <div class="col-xl-4">
+                      <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="Name" name="defaultExampleRadios" [(ngModel)]="criteria" value="name" (change)="changeValue($event)">
+                          <label class="custom-control-label" for="Name">Name</label>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-xl-4">
+                      <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="Capitalcity" name="defaultExampleRadios" [(ngModel)]="criteria" value="capital" (change)="changeValue($event)">
+                          <label class="custom-control-label" for="Capitalcity">Capital city</label>
+                      </div>
+                  </div>
+                  <div class="col-xl-4">
+                      <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="Callingcode" name="defaultExampleRadios" [(ngModel)]="criteria" value="callingcode" (change)="changeValue($event)">
+                          <label class="custom-control-label" for="Callingcode">Calling code</label>
+                      </div>
+                  </div>
+              </div>
+              <br>
+              
+              <div class="row">
+                  <div class="col-lg-12" [hidden]="criteria === '' || criteria === 'lang' || criteria === 'region' || criteria === 'name'">
+                      <div class="input-group md-form form-sm form-2 pl-0">
+                        <input #searchCtr class="form-control my-0 py-1 red-border" type="text" placeholder="Search" aria-label="Search"
+                        [(ngModel)]="search" (keydown)="handleKeyDown($event)">
+                        <div class="input-group-append">
+                          <span style="cursor: pointer" (click)="filterCountries()" class="input-group-text red lighten-3" id="basic-text1">
+                            <fa-icon [icon]="faSearch"></fa-icon></span>
+                        </div>
+                      </div>
+                      
+                  </div>
+                  <div class="col-lg-12" [hidden]="criteria === '' || criteria === 'callingcode' || criteria === 'capital'">
+
+                      <div class="ng-autocomplete">
+                          <ng-autocomplete #auto
+                            [data]="(criteria === 'lang' ? languages : (criteria === 'region' ? continents : countries))"
+                            [searchKeyword]="'name'"
+                            (selected)='selectEvent($event)'
+                            (inputChanged)='onChangeSearch($event)'
+                            (inputFocused)='onFocused($event)'
+                            [itemTemplate]="itemTemplate"
+                            [notFoundTemplate]="notFoundTemplate">                                 
+                          </ng-autocomplete>
+                           
+                          <ng-template #itemTemplate let-item>
+                          <a [innerHTML]="item.name"></a>
+                          </ng-template>
+                          <ng-template #notFoundTemplate let-notFound>
+                              <div [innerHTML]="notFound"></div>
+                              </ng-template>
+                              </div>
+
+                  </div>
+
+              </div>
+              
+    </div>                
+  </div>
+</div>   
+
+<div class="row">
+ 
+    <div *ngFor="let item of pagedItems" class="card-country card" style="width: 22rem;" (click)="getCountry(content, item)">
+        <img class="card-img-top" [src]="item.flag" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <p class="card-text">
+                <b>Capital city</b>: <span>{{item.capital}}</span>
+                <br>
+                <b>Languages</b>: <span>{{joinArray(item.languages, 'name')}} </span>
+                <br>
+                <b>Continent</b>: <span>{{item.region}}</span>
+                <br>
+                <b>Currencies</b>: <span>{{joinArray(item.currencies, 'code')}}</span>
+                <br>
+            </p>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <ngb-pagination [(page)]="page" [pageSize]="9" [collectionSize]="list.length" (pageChange)="setPage($event)"></ngb-pagination>
+    </div>
+</div>
+
+<div class="row">
+ 
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Country: {{country.name}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <form>
+
+          <div class="row">
+              <div class="col-lg-4">
+                  <p class="card-text">
+
+                      <b>Top level domain</b>: <span>{{country.topLevelDomain.join(', ')}} </span>
+                      <br>
+                      <b>Alpha code</b>: <span>{{country?.alpha3Code}}</span>
+                      <br>
+                  </p>
+              </div>
+              <div class="col-lg-4">
+                  <p class="card-text">
+
+                      <b>Subregion</b>: <span>{{country?.subregion}}</span>
+                      <br>
+                      <b>Population</b>: <span>{{country?.population}}</span>
+                      <br>
+
+                  </p>
+              </div>
+              <div class="col-lg-4">
+                  <p class="card-text">
+
+                      <b>Borders</b>: <span>{{country?.borders?.join(', ')}} </span>
+                      <br>
+                      <b>Languages</b>: <span>{{joinArray(country?.languages, 'name')}}</span>
+
+                  </p>
+              </div>
+
+          </div>
+          <div class="row">
+              <div class="col-lg-12">
+                  <br>
+                  <agm-map [latitude]="country.latlng[0]" [longitude]="country.latlng[1]" [scrollwheel]="true" [zoom]="zoom">
+                      <agm-marker [latitude]="country.latlng[0]" [longitude]="country.latlng[1]">
+                          <agm-info-window>
+                              <img [src]="country.flag" width="60">
+                              <br>
+                              <label>Continent:</label> {{country.region}}
+                              <br>
+                              <label>Country name:</label> {{country.name}}
+                              <br>
+                              <label>Capital city:</label> {{country.capital}}
+                          </agm-info-window>
+                      </agm-marker>
+                  </agm-map>
+              </div>
+          </div>
+
+      </form>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+  </div>
+</ng-template>
