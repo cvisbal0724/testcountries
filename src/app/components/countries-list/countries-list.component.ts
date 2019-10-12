@@ -15,7 +15,7 @@ import {PagerService} from '../../services/pager.service';
 export class CountriesListComponent implements OnInit {
 
   @ViewChild('auto') auto;
-  @ViewChild('searchCtr') searchCtr: ElementRef;  
+  @ViewChild('searchCtr') searchCtr: ElementRef;
   // icon button search
   faSearch = faSearch;
   public criteria = '';
@@ -34,7 +34,7 @@ export class CountriesListComponent implements OnInit {
    // page by default
    public page: number = 1;
    public selected = [];
-  
+
   constructor(private http: HttpClient,
               private modalService: NgbModal,
               private ngxService: NgxUiLoaderService,
@@ -85,7 +85,7 @@ export class CountriesListComponent implements OnInit {
   // Method used to paginate the list
   setPage() {
     // get pager object from service
-    this.pager = this.pagerService.getPager(this.list.length, this.page, 9);
+    this.pager = this.pagerService.getPager(this.list.length, this.page, 12);
     // get current page of items
     this.pagedItems = this.list.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
@@ -118,7 +118,7 @@ export class CountriesListComponent implements OnInit {
   }
 
   // Event when a country is chosen
-  selectEvent(item) { 
+  selectEvent(item) {
     this.search = item.id;
     this.filterCountries();
   }
@@ -150,7 +150,7 @@ export class CountriesListComponent implements OnInit {
   public getJSON(file): Observable<any> {
     return this.http.get(file);
   }
- 
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

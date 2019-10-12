@@ -41,7 +41,7 @@
                   </div>
               </div>
               <br>
-              
+
               <div class="row">
                   <div class="col-lg-12" [hidden]="criteria === '' || criteria === 'lang' || criteria === 'region' || criteria === 'name'">
                       <div class="input-group md-form form-sm form-2 pl-0">
@@ -52,7 +52,7 @@
                             <fa-icon [icon]="faSearch"></fa-icon></span>
                         </div>
                       </div>
-                      
+
                   </div>
                   <div class="col-lg-12" [hidden]="criteria === '' || criteria === 'callingcode' || criteria === 'capital'">
 
@@ -64,9 +64,9 @@
                             (inputChanged)='onChangeSearch($event)'
                             (inputFocused)='onFocused($event)'
                             [itemTemplate]="itemTemplate"
-                            [notFoundTemplate]="notFoundTemplate">                                 
+                            [notFoundTemplate]="notFoundTemplate">
                           </ng-autocomplete>
-                           
+
                           <ng-template #itemTemplate let-item>
                           <a [innerHTML]="item.name"></a>
                           </ng-template>
@@ -78,15 +78,15 @@
                   </div>
 
               </div>
-              
-    </div>                
+
+    </div>
   </div>
-</div>   
+</div>
 
 <div class="row">
- 
-    <div *ngFor="let item of pagedItems" class="card-country card" style="width: 22rem;" (click)="getCountry(content, item)">
-        <img class="card-img-top" [src]="item.flag" alt="Card image cap">
+    <div class="col-lg-3" *ngFor="let item of pagedItems">
+    <div class="card-country card" style="min-width:18rem" (click)="getCountry(content, item)">
+        <img class="card-img-top" [src]="item.flag" alt="Card image cap" width="200">
         <div class="card-body">
             <h5 class="card-title">{{item.name}}</h5>
             <p class="card-text">
@@ -101,13 +101,14 @@
             </p>
         </div>
     </div>
+   </div>
     <div class="col-lg-12">
-        <ngb-pagination [(page)]="page" [pageSize]="9" [collectionSize]="list.length" (pageChange)="setPage($event)"></ngb-pagination>
+        <ngb-pagination [(page)]="page" [pageSize]="9" [collectionSize]="list.length" (pageChange)="setPage()"></ngb-pagination>
     </div>
 </div>
 
 <div class="row">
- 
+
 </div>
 
 <ng-template #content let-modal>
