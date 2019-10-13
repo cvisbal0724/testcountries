@@ -34,6 +34,7 @@ export class CountriesListComponent implements OnInit {
    // page by default
    public page: number = 1;
    public selected = [];
+   public pageSize: number = 12;
 
   constructor(private http: HttpClient,
               private modalService: NgbModal,
@@ -85,7 +86,7 @@ export class CountriesListComponent implements OnInit {
   // Method used to paginate the list
   setPage() {
     // get pager object from service
-    this.pager = this.pagerService.getPager(this.list.length, this.page, 12);
+    this.pager = this.pagerService.getPager(this.list.length, this.page, this.pageSize);
     // get current page of items
     this.pagedItems = this.list.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
